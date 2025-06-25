@@ -48,9 +48,7 @@ set(gen_sources
     src/VertexGen_ReacIBD.cc
     src/VertexGen_SN.cc
     src/VertexGen_Spectrum.cc
-    src/VertexGen_WIMP.cc
-    src/VertexGen_PhotonRayWithAngularDist.cc
-)
+    src/VertexGen_WIMP.cc)
 
 if(${CRY_Enabled})
   set(gen_sources ${gen_sources} src/VertexGen_CRY.cc)

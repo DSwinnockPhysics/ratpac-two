@@ -1,0 +1,103 @@
+/glg4debug/glg4param omit_muon_processes  1.0
+/glg4debug/glg4param omit_hadronic_processes  1.0
+
+#set the d parameters
+/rat/db/set DETECTOR experiment "BUTTON"
+/rat/db/set DETECTOR geo_file "BUTTON/button_frame.geo"
+
+# Colors
+/rat/db/set GEO[world] invisible 1
+/rat/db/set GEO[tank] invisible 1
+/rat/db/set GEO[black_sheet] invisible 1
+
+
+
+/run/initialize
+
+#/tracking/storeTrajectory 1
+
+##### Visualization ##########################
+
+#/vis/open OGLIQt
+#/vis/scene/create
+#/vis/scene/add/trajectories rich smooth
+/tracking/storeTrajectory 1
+/tracking/FillPointCont 1
+#/vis/scene/add/volume
+#/vis/scene/add/hits
+#/vis/sceneHandler/attach scene-0
+#/vis/viewer/set/upVector 0.0 0.0 1.0
+#/vis/viewer/set/viewpointThetaPhi 90 0
+#/vis/viewer/set/style s
+#/vis/viewer/flush
+
+#/vis/modeling/trajectories/create/drawByParticleID
+#/vis/modeling/trajectories/drawByParticleID-0/setDefaultRGBA 0 255 0 255
+
+## Cut a plane through the d
+
+#/vis/viewer/addCutawayPlane 0 0 0 cm 1 0 0
+#/vis/viewer/addCutawayPlane 0 -100 0 cm 0 1 0
+#/vis/viewer/set/viewpointThetaPhi -90 0
+#/vis/viewer/zoomTo 10
+#/vis/viewer/panTo 10 0
+
+
+
+
+#/rat/proc lesssimpledaq
+#/rat/proc count
+#/rat/procset update 1
+
+# Use IO.default_output_filename
+/rat/proclast outroot
+
+## OUTPUT PYTHON-LIKE FORMAT
+## Needs RAT2
+/rat/proc outntuple
+/rat/procset include_tracking 1
+/rat/procset include_mcparticles 1
+/rat/procset include_pmthits 1
+/rat/procset include_untriggered_events 1
+
+##### GENERATORS #################
+
+
+/generator/add combo pray:point:poisson
+
+# Lower diffuser # DA37
+/generator/vtx/set 20000 405 90 90
+/generator/pos/set 70.0 -1458.8 -540.0
+
+# x = 0+70mm, position of diffuser relative to frame
+# y = -1487.5+9 + 19.2mm to go past liner as there are no holes for diffusers yet
+# z = -540mm for lower half diffuser
+
+#/generator/rate/set 1e7
+
+# Upper diffuser opposite: # DA38
+#/generator/vtx/set 20000 405 90 -90
+#/generator/pos/set -70.0 1458.8 540.0
+
+# Perpendicular lower diffuser needs to be clockwise (looking down) from the other lower diffuser: # DA40
+#/generator/vtx/set 20000 405 90 0
+#/generator/pos/set -1458.8 -70.0 -540.0
+
+# Perpendicular upper diffuser needs to be opposite the previous one: # DA34
+#/generator/vtx/set 20000 405 90 180
+#/generator/pos/set 1458.8 70.0 540.0
+
+
+
+
+#/generator/add/combo cry:point
+#/generator/pos/set 0.0 0.0 2000
+
+#/generator/add combo gun2:point:poisson
+#/generator/vtx/set e+ 0 0 0 0 0.1 0.10 #this is a positron fired in the uniformly form the center of the tank between the energy 1mev to 10mev
+#/generator/pos/set 0.0 0.0 0.0 #detector+
+#/generator/rate/set 1
+
+
+##### RUN ###########
+/run/beamOn 1

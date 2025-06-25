@@ -26,6 +26,7 @@
 #include <RAT/TimeUtil.hh>
 #include <RAT/VertexGen_ES.hh>
 #include <RAT/VertexGen_PhotonBomb.hh>
+#include <RAT/VertexGen_PhotonRayWithAngularDist.hh>
 #include <RAT/VertexGen_WIMP.hh>
 
 #include "G4Event.hh"
@@ -81,6 +82,7 @@ GLG4PrimaryGeneratorAction::GLG4PrimaryGeneratorAction() {
   RAT::GlobalFactory<GLG4VertexGen>::Register("wimp", new RAT::Alloc<GLG4VertexGen, RAT::VertexGen_WIMP>);
   RAT::GlobalFactory<GLG4VertexGen>::Register("HEPEvt", new RAT::Alloc<GLG4VertexGen, GLG4VertexGen_HEPEvt>);
   RAT::GlobalFactory<GLG4VertexGen>::Register("es", new RAT::Alloc<GLG4VertexGen, RAT::VertexGen_ES>);
+  RAT::GlobalFactory<GLG4VertexGen>::Register("pray", new RAT::Alloc<GLG4VertexGen, RAT::VertexGen_PhotonRay>);
 
   // Position generators
   RAT::GlobalFactory<GLG4PosGen>::Register("point", new RAT::Alloc<GLG4PosGen, GLG4PosGen_Point>);
