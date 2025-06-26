@@ -1,0 +1,2 @@
+- Add DiffuserDataWaterClean.out to the location that the rat command is invoked from.
+- The macro contains the diffuser locations 
